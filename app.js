@@ -189,7 +189,7 @@ function buildQuestions(survey) {
     } else if (q.type === 'number') {
       const inp = document.createElement('input');
       inp.type = 'number'; inp.id = 'inp-' + q.id;
-      inp.min = q.min || 1; inp.max = q.max || 99;
+      inp.min = q.min != null ? q.min : 1; inp.max = q.max != null ? q.max : 99;
       inp.placeholder = `${q.min || 1} ते ${q.max || 99}`;
       inp.addEventListener('input', () => { answers[q.id] = inp.value; });
       block.appendChild(inp);
@@ -204,7 +204,7 @@ function buildQuestions(survey) {
       fileInput.type = 'file';
       fileInput.accept = 'image/*';
       fileInput.id = 'inp-' + q.id;
-      fileInput.style.display = 'none';
+      fileInput.style.cssText = 'visibility:hidden;position:absolute;width:0;height:0;';
 
       const uploadLabel = document.createElement('label');
       uploadLabel.className = 'photo-upload-btn';
