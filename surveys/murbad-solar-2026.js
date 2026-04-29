@@ -61,9 +61,9 @@ window.SURVEYS.push({
     {
       id:      "q3",
       text:    "किती पॅनेल खराब आहेत?",
-      subtext: "How many panels are damaged? (enter 1 to 4)",
+      subtext: "How many panels are damaged? (enter 0 to 4)",
       type:    "number",
-      min:     1,
+      min:     0,
       max:     4,
       showIf:  { id: "q2", value: "yes" },
     },
