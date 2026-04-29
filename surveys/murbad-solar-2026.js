@@ -75,5 +75,13 @@ window.SURVEYS.push({
       optional: true,
       showIf:   { id: "q0", value: "yes" },
     },
+    {
+      id:      "q5",
+      text:    "शाळेतील सोलर इन्स्टॉलेशनचा फोटो काढा",
+      subtext: "Take a photo of the solar installation at your school (optional)",
+      type:    "photo",
+      optional: true,
+      showIf:  { id: "q0", value: "yes" },
+    },
   ],
 });
