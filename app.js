@@ -205,13 +205,12 @@ function buildQuestions(survey) {
       fileInput.accept = 'image/*';
       fileInput.capture = 'environment';
       fileInput.id = 'inp-' + q.id;
-      fileInput.style.display = 'none';
+      fileInput.style.cssText = 'position:absolute;opacity:0;width:0;height:0;';
 
-      const uploadBtn = document.createElement('button');
-      uploadBtn.type = 'button';
-      uploadBtn.className = 'photo-upload-btn';
-      uploadBtn.innerHTML = `<span class="icon">📷</span><span>फोटो काढा / Upload Photo</span>`;
-      uploadBtn.addEventListener('click', () => fileInput.click());
+      const uploadLabel = document.createElement('label');
+      uploadLabel.htmlFor = fileInput.id;
+      uploadLabel.className = 'photo-upload-btn';
+      uploadLabel.innerHTML = `<span class="icon">📷</span><span>फोटो काढा / Upload Photo</span>`;
 
       const note = document.createElement('div');
       note.className = 'photo-optional-note';
@@ -234,7 +233,7 @@ function buildQuestions(survey) {
         fileInput.value = '';
         previewImg.src = '';
         previewWrap.style.display = 'none';
-        uploadBtn.style.display = 'flex';
+        uploadLabel.style.display = 'flex';
       });
 
       previewWrap.appendChild(previewImg);
@@ -243,19 +242,17 @@ function buildQuestions(survey) {
       fileInput.addEventListener('change', async () => {
         const file = fileInput.files[0];
         if (!file) return;
-        uploadBtn.innerHTML = `<span class="icon">⏳</span><span>Compressing…</span>`;
-        uploadBtn.disabled = true;
+        uploadLabel.innerHTML = `<span class="icon">⏳</span><span>Compressing…</span>`;
         const compressed = await compressImage(file);
         answers[q.id] = compressed;
         previewImg.src = compressed;
         previewWrap.style.display = 'inline-block';
-        uploadBtn.style.display = 'none';
-        uploadBtn.innerHTML = `<span class="icon">📷</span><span>फोटो काढा / Upload Photo</span>`;
-        uploadBtn.disabled = false;
+        uploadLabel.style.display = 'none';
+        uploadLabel.innerHTML = `<span class="icon">📷</span><span>फोटो काढा / Upload Photo</span>`;
       });
 
       block.appendChild(fileInput);
-      block.appendChild(uploadBtn);
+      block.appendChild(uploadLabel);
       block.appendChild(previewWrap);
       block.appendChild(note);
     }
