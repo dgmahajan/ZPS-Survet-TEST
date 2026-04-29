@@ -203,14 +203,13 @@ function buildQuestions(survey) {
       const fileInput = document.createElement('input');
       fileInput.type = 'file';
       fileInput.accept = 'image/*';
-      fileInput.capture = 'environment';
       fileInput.id = 'inp-' + q.id;
-      fileInput.style.cssText = 'position:absolute;opacity:0;width:0;height:0;';
+      fileInput.style.cssText = 'position:absolute;opacity:0;width:1px;height:1px;overflow:hidden;';
 
       const uploadLabel = document.createElement('label');
       uploadLabel.htmlFor = fileInput.id;
       uploadLabel.className = 'photo-upload-btn';
-      uploadLabel.innerHTML = `<span class="icon">📷</span><span>फोटो काढा / Upload Photo</span>`;
+      uploadLabel.innerHTML = `<span class="icon">📷</span><span>फोटो काढा / Take photo using any GPS camera app</span>`;
 
       const note = document.createElement('div');
       note.className = 'photo-optional-note';
@@ -248,7 +247,7 @@ function buildQuestions(survey) {
         previewImg.src = compressed;
         previewWrap.style.display = 'inline-block';
         uploadLabel.style.display = 'none';
-        uploadLabel.innerHTML = `<span class="icon">📷</span><span>फोटो काढा / Upload Photo</span>`;
+        uploadLabel.innerHTML = `<span class="icon">📷</span><span>फोटो काढा / Take photo using any GPS camera app</span>`;
       });
 
       block.appendChild(fileInput);
