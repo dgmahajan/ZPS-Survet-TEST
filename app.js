@@ -320,7 +320,7 @@ async function submitSurvey(e) {
   const btn = document.getElementById('submit-btn');
   btn.disabled = true; btn.textContent = 'सादर होत आहे...';
   try {
-    await fetch(SUBMIT_URL, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) });
+    await fetch(SUBMIT_URL, { method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain'}, body:JSON.stringify(payload) });
     document.getElementById('app').innerHTML = `
       <div class="card">
         <div class="success-screen">
