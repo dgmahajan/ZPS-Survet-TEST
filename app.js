@@ -320,7 +320,12 @@ async function submitSurvey(e) {
   const btn = document.getElementById('submit-btn');
   btn.disabled = true; btn.textContent = 'सादर होत आहे...';
   try {
-    await fetch(SUBMIT_URL, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) });
+    const res = await fetch(SUBMIT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) throw new Error('Server error: ' + res.status);
     document.getElementById('app').innerHTML = `
       <div class="card">
         <div class="success-screen">
@@ -331,7 +336,7 @@ async function submitSurvey(e) {
         </div>
       </div>`;
   } catch (err) {
-    alert('सादर करताना त्रुटी आली. इंटरनेट तपासा आणि पुन्हा प्रयत्न करा.\nSubmission failed. Check your internet and try again.');
+    alert('सादर करताना त्रुटी आली. इंटरनेट तपासा आणि पुन्हा प्रयत्न करा.\nSubmission failed — your data was NOT saved. Check your internet and try again.\n\nError: ' + err.message);
     btn.disabled = false; btn.textContent = 'सादर करा (Submit)';
   }
 }
