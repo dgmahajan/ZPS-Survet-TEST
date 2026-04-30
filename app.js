@@ -273,10 +273,14 @@ function prefillAnswers(prior) {
     } else if (q.type === 'photo') {
       const block = document.getElementById('block-' + q.id);
       if (block && val.startsWith('http')) {
+        const idMatch = val.match(/\/d\/([^\/]+)/);
+        const imgSrc  = idMatch
+          ? `https://drive.google.com/uc?export=view&id=${idMatch[1]}`
+          : val;
         const previewImg  = block.querySelector('.photo-preview');
         const previewWrap = block.querySelector('.photo-preview-wrap');
         const uploadLabel = block.querySelector('.photo-upload-btn');
-        if (previewImg)  previewImg.src = val;
+        if (previewImg)  { previewImg.src = imgSrc; answers[q.id] = imgSrc; }
         if (previewWrap) previewWrap.style.display = 'inline-block';
         if (uploadLabel) uploadLabel.style.display = 'none';
       }
