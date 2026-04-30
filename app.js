@@ -121,10 +121,7 @@ async function checkMatch() {
   if (!u || !n) return;
   if (u !== n) { document.getElementById('match-fail').style.display = 'block'; return; }
 
-  document.getElementById('match-ok').style.display = 'block';
-  document.getElementById('questions-section').style.display = 'block';
-
-  // Check for prior submission and load previous answers
+  // Fetch prior submission first, then reveal the form fully populated
   try {
     const res  = await fetch(SUBMIT_URL + '?udise=' + u + '&tab=' + encodeURIComponent(currentSurvey.sheet_tab));
     const data = await res.json();
@@ -134,6 +131,9 @@ async function checkMatch() {
       prefillAnswers(data.prior);
     }
   } catch (err) { /* allow on network error */ }
+
+  document.getElementById('match-ok').style.display = 'block';
+  document.getElementById('questions-section').style.display = 'block';
 }
 
 // ── Build questions ───────────────────────────────────────────
@@ -273,16 +273,9 @@ function prefillAnswers(prior) {
     } else if (q.type === 'photo') {
       const block = document.getElementById('block-' + q.id);
       if (block && val.startsWith('http')) {
-        const idMatch = val.match(/\/d\/([^\/]+)/);
-        const imgSrc  = idMatch
-          ? `https://drive.google.com/uc?export=view&id=${idMatch[1]}`
-          : val;
-        const previewImg  = block.querySelector('.photo-preview');
-        const previewWrap = block.querySelector('.photo-preview-wrap');
-        const uploadLabel = block.querySelector('.photo-upload-btn');
-        if (previewImg)  { previewImg.src = imgSrc; answers[q.id] = imgSrc; }
-        if (previewWrap) previewWrap.style.display = 'inline-block';
-        if (uploadLabel) uploadLabel.style.display = 'none';
+        const note = block.querySelector('.photo-optional-note');
+        if (note) note.innerHTML =
+          `📷 आधीचा फोटो सादर केला आहे. <a href="${val}" target="_blank">पाहण्यासाठी येथे क्लिक करा / Click to view previous photo</a><br/>नवीन फोटो अपलोड केल्यास तो बदलेल.`;
       }
     } else {
       const inp = document.getElementById('inp-' + q.id);
