@@ -9,6 +9,16 @@ window.SURVEYS.push({
 
   schools: [
     { udise: "TEST",          name: "Test School (Admin Preview)", taluka: "Admin"  },
+    { udise: "TEST1",          name: "Test School 1 (Admin Preview)", taluka: "Admin"  },
+    { udise: "TEST2",          name: "Test School 2 (Admin Preview)", taluka: "Admin"  },
+    { udise: "TEST3",          name: "Test School 3 (Admin Preview)", taluka: "Admin"  },
+    { udise: "TEST4",          name: "Test School 4 (Admin Preview)", taluka: "Admin"  },
+    { udise: "TEST5",          name: "Test School 5 (Admin Preview)", taluka: "Admin"  },
+    { udise: "TEST6",          name: "Test School 6 (Admin Preview)", taluka: "Admin"  },
+    { udise: "TEST7",          name: "Test School 7 (Admin Preview)", taluka: "Admin"  },
+    { udise: "TEST8",          name: "Test School 8 (Admin Preview)", taluka: "Admin"  },
+    { udise: "TEST9",          name: "Test School 9 (Admin Preview)", taluka: "Admin"  },
+    { udise: "TEST10",          name: "Test School 10 (Admin Preview)", taluka: "Admin"  },
     { udise: "27210900302",   name: "जि.प.शाळा वाघिवलीपाडा",      taluka: "Murbad" },
     { udise: "27210900701",   name: "जि.प.शाळा वडू",               taluka: "Murbad" },
     { udise: "27210901701",   name: "जि.प.शाळा तिवारपाडा",         taluka: "Murbad" },
