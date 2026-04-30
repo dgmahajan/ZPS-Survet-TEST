@@ -265,8 +265,9 @@ function buildQuestions(survey) {
 function prefillAnswers(prior) {
   if (!currentSurvey) return;
   currentSurvey.questions.forEach(q => {
-    const val = String(prior[q.id] || '').trim();
-    if (!val) return;
+    const raw = prior[q.id];
+    if (raw === undefined || raw === null || raw === '') return;
+    const val = String(raw).trim();
     answers[q.id] = val;
     if (q.type === 'yesno' || q.type === 'yesnodk') {
       const row = document.getElementById('row-' + q.id);
@@ -276,9 +277,14 @@ function prefillAnswers(prior) {
     } else if (q.type === 'photo') {
       const block = document.getElementById('block-' + q.id);
       if (block && val.startsWith('http')) {
-        const note = block.querySelector('.photo-optional-note');
-        if (note) note.innerHTML =
-          `📷 आधीचा फोटो सादर केला आहे. <a href="${val}" target="_blank">पाहण्यासाठी येथे क्लिक करा / Click to view previous photo</a><br/>नवीन फोटो अपलोड केल्यास तो बदलेल.`;
+        const div = document.createElement('div');
+        div.className = 'prior-photo-notice';
+        div.innerHTML = `📷 <strong>आधीचा फोटो सादर आहे.</strong><br/>
+          <a href="${val}" target="_blank">पाहण्यासाठी येथे क्लिक करा / Click to view submitted photo</a><br/>
+          <small>नवीन फोटो अपलोड केल्यास तो बदलेल / Upload a new photo to replace it</small>`;
+        const uploadLabel = block.querySelector('.photo-upload-btn');
+        if (uploadLabel) block.insertBefore(div, uploadLabel);
+        else block.appendChild(div);
       }
     } else {
       const inp = document.getElementById('inp-' + q.id);
