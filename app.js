@@ -121,18 +121,21 @@ async function checkMatch() {
   if (!u || !n) return;
   if (u !== n) { document.getElementById('match-fail').style.display = 'block'; return; }
 
-  // Fetch prior submission first, then reveal the form fully populated
+  // Fetch prior data silently, then reveal everything at once
+  let hasPrior = false;
   try {
     const res  = await fetch(SUBMIT_URL + '?udise=' + u + '&tab=' + encodeURIComponent(currentSurvey.sheet_tab));
     const data = await res.json();
     if (data.submitted && data.prior) {
-      document.getElementById('prior-notice').style.display = 'block';
+      hasPrior = true;
       if (data.prior.mobile) document.getElementById('mobile-number').value = data.prior.mobile;
       prefillAnswers(data.prior);
     }
   } catch (err) { /* allow on network error */ }
 
-  document.getElementById('match-ok').style.display = 'block';
+  // Reveal form only now — fully populated, all at once
+  document.getElementById('match-ok').style.display    = 'block';
+  if (hasPrior) document.getElementById('prior-notice').style.display = 'block';
   document.getElementById('questions-section').style.display = 'block';
 }
 
