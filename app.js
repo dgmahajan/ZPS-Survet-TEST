@@ -121,6 +121,9 @@ async function checkMatch() {
   if (!u || !n) return;
   if (u !== n) { document.getElementById('match-fail').style.display = 'block'; return; }
 
+  document.getElementById('match-ok').style.display = 'block';
+  document.getElementById('questions-section').style.display = 'block';
+
   // Check for prior submission and load previous answers
   try {
     const res  = await fetch(SUBMIT_URL + '?udise=' + u + '&tab=' + encodeURIComponent(currentSurvey.sheet_tab));
@@ -131,9 +134,6 @@ async function checkMatch() {
       prefillAnswers(data.prior);
     }
   } catch (err) { /* allow on network error */ }
-
-  document.getElementById('match-ok').style.display = 'block';
-  document.getElementById('questions-section').style.display = 'block';
 }
 
 // ── Build questions ───────────────────────────────────────────
@@ -262,7 +262,7 @@ function buildQuestions(survey) {
 function prefillAnswers(prior) {
   if (!currentSurvey) return;
   currentSurvey.questions.forEach(q => {
-    const val = prior[q.id];
+    const val = String(prior[q.id] || '').trim();
     if (!val) return;
     answers[q.id] = val;
     if (q.type === 'yesno' || q.type === 'yesnodk') {
@@ -270,6 +270,16 @@ function prefillAnswers(prior) {
       if (row) row.querySelectorAll('.yesno-btn').forEach(btn => {
         if (btn.dataset.val === val) btn.classList.add('active');
       });
+    } else if (q.type === 'photo') {
+      const block = document.getElementById('block-' + q.id);
+      if (block && val.startsWith('http')) {
+        const previewImg  = block.querySelector('.photo-preview');
+        const previewWrap = block.querySelector('.photo-preview-wrap');
+        const uploadLabel = block.querySelector('.photo-upload-btn');
+        if (previewImg)  previewImg.src = val;
+        if (previewWrap) previewWrap.style.display = 'inline-block';
+        if (uploadLabel) uploadLabel.style.display = 'none';
+      }
     } else {
       const inp = document.getElementById('inp-' + q.id);
       if (inp) inp.value = val;
